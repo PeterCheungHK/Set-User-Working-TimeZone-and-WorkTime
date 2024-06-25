@@ -52,7 +52,6 @@ Get-EXOMailbox | Where {$_.RecipientTypeDetails -eq "UserMailbox"} | Get-Mailbox
 
 **you can change WorkingHoursTimeZone to WorkDays**
 
-9.Check Multiple User(Show as item)
 
 | col1                  | col2                   |
 | --------------------- | ---------------------- |
@@ -62,40 +61,4 @@ Get-EXOMailbox | Where {$_.RecipientTypeDetails -eq "UserMailbox"} | Get-Mailbox
 | WorkingHoursEndTime   | 18:00:00               |
 | WorkingHoursTimeZone  | China Standard Time    |
 
-<details>
-  <summary>Click to expand</summary>
----
 
-```
-$DefaultStart = [timespan]::new(9, 0, 0);
-$DefaultEnd   = [timespan]::new(18, 0, 0);
-
-# Fetch the working hours of any mailbox.
-Get-EXOMailbox -ResultSize unlimited -PropertySets StatisticsSeed -Filter "RecipientTypeDetails -ne 'DiscoveryMailbox'" |
-    ForEach-Object {
-        $CalenderCfg = Get-MailboxCalendarConfiguration -Identity $_.ExchangeGuid -WarningAction:SilentlyContinue;
-  
-        if (
-            ($CalenderCfg.IsWorkingHoursSectionEnabled) -and (
-                ($CalenderCfg.WorkDays -eq "Weekdays") -or
-                ($CalenderCfg.WorkingHoursStartTime -ne $DefaultStart) -or
-                ($CalenderCfg.WorkingHoursEndTime -ne $DefaultEnd)
-            )
-        )
-        {
-            # Output 
-            [PSCustomObject] @{
-                id = $_.ExchangeGuid;
-                primarySmtpAddress = $_.PrimarySmtpAddress;
-                workDays = $CalenderCfg.WorkDays;
-                startTime = $CalenderCfg.WorkingHoursStartTime;
-                endTime = $CalenderCfg.WorkingHoursEndTime;
-                timeZone = $CalenderCfg.WorkingHoursTimeZone;
-            }
-        }
-    }
-```
-
----
-
-</details>
