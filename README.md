@@ -37,28 +37,30 @@
 Get-MailboxCalendarConfiguration -Identity targetuser@contoso.com 
 ```
 
-
 9. Check Multiple User(Show as List by List)
-    
- ```
+
+```
 Get-EXOMailbox | Where {$_.RecipientTypeDetails -eq "UserMailbox"} | Get-MailboxCalendarConfiguration | select Identity,  WorkingHoursStartTime, WorkingHoursEndTime,WorkingHoursTimeZone
 ```
 
 | Identity                | WorkingHoursStartTime | WorkingHoursEndTime | WorkingHoursTimeZone |
-   | ----------------------- | --------------------- | ------------------- | -------------------- |
-   | targetuser@contoso.com  | 09:00:00              | 18:00:00            | China Standard Time  |
-   | targetuser1@contoso.com | 09:00:00              | 18:00:00            | China Standard Time  |
+| ----------------------- | --------------------- | ------------------- | -------------------- |
+| targetuser@contoso.com  | 09:00:00              | 18:00:00            | China Standard Time  |
+| targetuser1@contoso.com | 09:00:00              | 18:00:00            | China Standard Time  |
 
-[!TIP]   A maximum of four search criteria, otherwise it will become item by item
+**A maximum of four search criteria, otherwise it will become item by item**
 
-you can change WorkingHoursTimeZone to WorkDays
-
-
-
+**you can change WorkingHoursTimeZone to WorkDays**
 
 9.Check Multiple User(Show as item)
 
-`id                 : 12345-6789-1234-123 primarySmtpAddress : targetuser@contoso.com workDays           : Weekdays startTime          : 09:00:00 endTime            : 18:00:00 timeZone           : China Standard Time`
+| col1                  | col2                   |
+| --------------------- | ---------------------- |
+| Identity              | targetuser@contoso.com |
+| WorkDays              | Weekdays               |
+| WorkingHoursStartTime | 09:00:00               |
+| WorkingHoursEndTime   | 18:00:00               |
+| WorkingHoursTimeZone  | China Standard Time    |
 
 <details>
   <summary>Click to expand</summary>
